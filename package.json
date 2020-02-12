@@ -1,0 +1,9 @@
+{
+  "name": "keyper",
+  "description": "ownership layer for Nervos CKB",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:ququzone/keyper.git",
+  "author": "ququzone <xueping.yang@gmail.com>",
+  "license": "MIT"
+}
