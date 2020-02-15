@@ -13,4 +13,19 @@ Key Manager is responsible for managing the user's private key and the implement
 
 ## dApp Integration
 
+
+
 ## LockScript Specification
+
+```
+interface LockScript {
+  readonly name: string;
+  hash(): string;
+  address(short: boolean): string;
+  script(): Script;
+  deps(): CellDep[];
+  headers?(): Hash256[];
+  requiredAlgorithms(): SignatrueAlgorithm[];
+  sign(rawTx: RawTransaction): RawTransaction;
+}
+```
