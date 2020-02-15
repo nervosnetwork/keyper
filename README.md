@@ -7,7 +7,9 @@ Keyper is bridge layer for wallet key manager mudule and dApp. dApp developers c
 
 Keyper also a LockScript container for Nervos. Keyper can convert wallet-managed private keys into LockScript instances, so dApp applications can use LockScirpt to build dApp logic.
 
-## Wallet Integration
+## Key Manager(Wallet) Integration
+
+Key Manager is responsible for managing the user's private key and the implementation of the core encryption algorithm. The private key can be an independent private keys or HD wallet keys.
 
 ## dApp Integration
 
