@@ -1,6 +1,6 @@
-# `sepcs`
+# Keyper specifications
 
-> keyper api specifications.
+> keyper specifications for Key Manager and dApps.
 
 ## Build
 
