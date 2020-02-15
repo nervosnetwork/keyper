@@ -2,8 +2,32 @@
   "name": "keyper",
   "description": "ownership layer for Nervos CKB",
   "version": "0.0.1",
-  "main": "index.js",
-  "repository": "git@github.com:ququzone/keyper.git",
   "author": "ququzone <xueping.yang@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "reboot": "yarn run clean && yarn run bootstrap",
+    "bootstrap": "lerna bootstrap --use-workspaces",
+    "clean": "lerna clean -y && rm -rf node_modules",
+    "clean:build": "lerna run clean:build",
+    "lint": "eslint . --ext .js,.ts --fix",
+    "lint:nofix": "eslint . --ext .js,.ts",
+    "test": "jest"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.20.2",
+    "eslint": "^6.6.0",
+    "jest": "^24.9.0",
+    "typescript": "^3.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ququzone/keyper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ququzone/keyper/issues"
+  }
 }

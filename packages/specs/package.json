@@ -1,0 +1,26 @@
+{
+  "name": "sepcs",
+  "version": "0.0.1",
+  "description": "keyper specifications",
+  "keywords": [
+    "keyper",
+    "lockscript",
+    "api",
+    "specifications"
+  ],
+  "author": "ququzone <xueping.yang@gmail.com>",
+  "homepage": "https://github.com/ququzone/keyper#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "types": "types",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc -b"
+  }
+}
