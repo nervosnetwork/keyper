@@ -1,4 +1,4 @@
-import { Hash256, CellDep, RawTransaction, Script } from "./types";
+import { Hash256, CellDep, RawTransaction, Script } from "./type";
 import { SignatrueAlgorithm } from "./const";
 
 export interface LockScript {

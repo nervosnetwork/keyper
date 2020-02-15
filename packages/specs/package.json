@@ -21,7 +21,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc",
     "clean:build": "rm -rf lib types *.tsbuildinfo"
   }
 }
