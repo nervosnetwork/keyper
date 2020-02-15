@@ -1,13 +1,15 @@
-import { Hash256, CellDep, RawTransaction, Script } from "./type";
-import { SignatrueAlgorithm } from "./const";
+import { Hash256, CellDep, RawTransaction, Script, ScriptHashType } from "./type";
+import { SignatureAlgorithm } from "./const";
 
 export interface LockScript {
   readonly name: string;
-  hash(): string;
-  address(short: boolean): string;
-  script(): Script;
+  readonly codeHash: Hash256;
+  readonly hashType: ScriptHashType;
+  hash(publicKey: string): string;
+  address(publicKey: string, short: boolean): string;
+  script(publicKey: string): Script;
   deps(): CellDep[];
   headers?(): Hash256[];
-  requiredAlgorithms(): SignatrueAlgorithm[];
-  sign(rawTx: RawTransaction): Promise<RawTransaction>;
+  requiredAlgorithms(): SignatureAlgorithm[];
+  sign(publicKey: string, rawTx: RawTransaction): Promise<RawTransaction>;
 }

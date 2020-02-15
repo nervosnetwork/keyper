@@ -1,12 +1,10 @@
 {
-  "name": "@keyper/sepcs",
+  "name": "@keyper/container",
   "version": "0.0.1",
-  "description": "keyper specifications",
+  "description": "keyper container",
   "keywords": [
     "keyper",
-    "lockscript",
-    "api",
-    "specifications"
+    "container"
   ],
   "author": "ququzone <xueping.yang@gmail.com>",
   "homepage": "https://github.com/ququzone/keyper#readme",
@@ -23,5 +21,8 @@
   "scripts": {
     "build": "tsc",
     "clean:build": "rm -rf lib types *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@keyper/sepcs": "^0.0.1"
   }
 }

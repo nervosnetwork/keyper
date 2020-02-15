@@ -10,6 +10,7 @@
     "bootstrap": "lerna bootstrap --use-workspaces",
     "clean": "lerna clean -y && rm -rf node_modules",
     "clean:build": "lerna run clean:build",
+    "build": "lerna run clean:build && lerna run build",
     "lint": "eslint . --ext .js,.ts --fix",
     "lint:nofix": "eslint . --ext .js,.ts",
     "test": "jest"

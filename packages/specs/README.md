@@ -11,5 +11,5 @@ yarn run build
 ## Usage
 
 ```
-const sepcs = require('sepcs');
+const specs = require('@keper/specs');
 ```

@@ -11,9 +11,11 @@ Keyper also a LockScript container for Nervos. Keyper can convert wallet-managed
 
 Key Manager is responsible for managing the user's private key and the implementation of the core encryption algorithm. The private key can be an independent private keys or HD wallet keys.
 
+Key Manager should integrate `@keyper/container` module or `@keyper/container` protocol interface for support Keyper architecture.
+
 ## dApp Integration
 
-
+// TODO
 
 ## LockScript Specification
 
