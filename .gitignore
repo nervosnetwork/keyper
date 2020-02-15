@@ -2,3 +2,4 @@ node_modules
 lib/
 !bin/lib/
 types/
+*.tsbuildinfo
