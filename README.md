@@ -13,9 +13,28 @@ Key Manager is responsible for managing the user's private key and the implement
 
 Key Manager should integrate `@keyper/container` module or `@keyper/container` protocol interface for support Keyper architecture.
 
+```
+interface PublicKey {
+  payload: Bytes,
+  algorithm: SignatureAlgorithm
+}
+
+interface KeyManager {
+  addLockScript(lockScript: LockScript): void
+  addPublicKey(publicKey: PublicKey): void
+  removePublicKey(publicKey: PublicKey): void
+}
+```
+
 ## dApp Integration
 
-// TODO
+```
+interface ContainerService {
+  getAllLockScripts(): Promise<Script[]>
+  getAllLockHashes(): Promise<Hash256[]>
+  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+}
+```
 
 ## LockScript Specification
 
