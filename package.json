@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "reboot": "yarn run clean && yarn run bootstrap",
+    "reboot": "yarn run clean && yarn install && yarn run bootstrap",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "clean": "lerna clean -y && rm -rf node_modules",
     "clean:build": "lerna run clean:build",
@@ -19,9 +19,12 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@types/jest": "24.0.18",
+    "@types/node": "^8.0.29",
     "lerna": "^3.20.2",
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.7.0"
   },
   "repository": {

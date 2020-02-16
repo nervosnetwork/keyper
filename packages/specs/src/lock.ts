@@ -1,6 +1,16 @@
 import { Hash256, CellDep, RawTransaction, Script, ScriptHashType } from "./type";
 import { SignatureAlgorithm } from "./const";
 
+export interface Config {
+  index: number;
+  length: number;
+}
+
+export class DefaultAllConfig implements Config {
+  index: number = 0;
+  length: number = -1;
+}
+
 export interface LockScript {
   readonly name: string;
   readonly codeHash: Hash256;
@@ -11,5 +21,5 @@ export interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   requiredAlgorithms(): SignatureAlgorithm[];
-  sign(publicKey: string, rawTx: RawTransaction): Promise<RawTransaction>;
+  sign(publicKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
