@@ -20,6 +20,6 @@ export interface LockScript {
   script(publicKey: string): Script;
   deps(): CellDep[];
   headers?(): Hash256[];
-  requiredAlgorithms(): SignatureAlgorithm[];
+  signatureAlgorithm(): SignatureAlgorithm;
   sign(publicKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }

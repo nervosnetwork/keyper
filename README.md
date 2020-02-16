@@ -29,7 +29,7 @@ interface LockScript {
   script(publicKey: string): Script;
   deps(): CellDep[];
   headers?(): Hash256[];
-  requiredAlgorithms(): SignatureAlgorithm[];
-  sign(publicKey: string, rawTx: RawTransaction): Promise<RawTransaction>;
+  signatureAlgorithm(): SignatureAlgorithm;
+  sign(publicKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
 ```
