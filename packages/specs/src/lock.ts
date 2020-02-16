@@ -15,8 +15,6 @@ export interface LockScript {
   readonly name: string;
   readonly codeHash: Hash256;
   readonly hashType: ScriptHashType;
-  hash(publicKey: string): string;
-  address(publicKey: string, short: boolean): string;
   script(publicKey: string): Script;
   deps(): CellDep[];
   headers?(): Hash256[];

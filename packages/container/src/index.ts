@@ -1,4 +1,5 @@
-import { LockScript, SignatureAlgorithm, Bytes } from "@keyper/sepcs";
+import * as utils from "@nervosnetwork/ckb-sdk-utils";
+import { LockScript, SignatureAlgorithm, Bytes, Script, Hash256 } from "@keyper/sepcs";
 
 export interface PublicKey {
   payload: Bytes,
@@ -6,29 +7,40 @@ export interface PublicKey {
 }
 
 export interface ContainerService {
+  getAllLockScripts(): Promise<Script[]>
+  getAllLockHashes(): Promise<Hash256[]>
+}
+
+interface LockScriptHolder {
+  publicKey: PublicKey,
+  script: Script
 }
 
 export class Container implements ContainerService {
   private algorithms: SignatureAlgorithm[];
-  private plugins: LockScript[];
+  private lockScripts: LockScript[];
   private publicKeys: PublicKey[];
+  private holders: {
+    [lockHash: string]: LockScriptHolder
+  };
 
   public constructor(algorithms: SignatureAlgorithm[]) {
     this.algorithms = algorithms;
   }
 
-  public addPlugin(plugin: LockScript) {
+  public addLockScript(lockScript: LockScript) {
     let matched = false;
     for (let i = 0; i < this.algorithms.length; i++) {
-      if (this.algorithms[i] === plugin.signatureAlgorithm()) {
+      if (this.algorithms[i] === lockScript.signatureAlgorithm()) {
         matched = true;
         break;
       }
     }
     if (!matched) {
-      throw Error(`container not support ${plugin.signatureAlgorithm()} signature algorithm.`);
+      throw Error(`container not support ${lockScript.signatureAlgorithm()} signature algorithm.`);
     }
-    this.plugins.push(plugin);
+    this.initLockScriptHolders(lockScript);
+    this.lockScripts.push(lockScript);
   }
 
   public addPublicKey(publicKey: PublicKey) {
@@ -41,6 +53,41 @@ export class Container implements ContainerService {
         return;
       }
     }
+    this.initPublicKeyHolders(publicKey);
     this.publicKeys.push(publicKey);
+  }
+
+  private initLockScriptHolders(lockScript: LockScript) {
+    this.publicKeys.forEach(publicKey => {
+      if (publicKey.algorithm === lockScript.signatureAlgorithm()) {
+        const script = lockScript.script(publicKey.payload);
+        const hash = utils.scriptToHash(script);
+        this.holders[hash] = {
+          publicKey: publicKey,
+          script: script
+        };
+      }
+    });
+  }
+
+  private initPublicKeyHolders(publicKey: PublicKey) {
+    this.lockScripts.forEach(lockScript => {
+      if (publicKey.algorithm === lockScript.signatureAlgorithm()) {
+        const script = lockScript.script(publicKey.payload);
+        const hash = utils.scriptToHash(script);
+        this.holders[hash] = {
+          publicKey: publicKey,
+          script: script
+        };
+      }
+    });
+  }
+
+  public async getAllLockScripts(): Promise<Script[]> {
+    return Object.keys(this.holders).map(lockHash => this.holders[lockHash].script);
+  }
+
+  public async getAllLockHashes(): Promise<Hash256[]> {
+    return Object.keys(this.holders);
   }
 }
