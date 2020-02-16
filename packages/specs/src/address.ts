@@ -50,3 +50,45 @@ export function addressToScript(address: string, systemCodeHash = {
     throw new Error(`Invalid address: ${address}`);
   }
 }
+
+export function scriptToAddress(script: Script, config: {
+  networkPrefix?: string,
+  short?: boolean,
+  SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH?: string,
+  SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH?: string
+} = {
+  networkPrefix: "ckb" ,
+  short: false,
+  SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH: "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+	SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH: "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8"
+}) {
+  if (!config.networkPrefix) {
+    config.networkPrefix = "ckb";
+  }
+  if (!config.SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH) {
+    config.SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH = "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8";
+  }
+  if (!config.SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH) {
+    config.SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH = "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8";
+  }
+  let payload = "";
+  if (config.short) {
+    if (script.codeHash === config.SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH) {
+      payload = `0100${script.args.slice(2)}`;
+    } else if (script.codeHash === config.SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH) {
+      payload = `0101${script.args.slice(2)}`;
+    } else {
+      throw new Error(`Invalid script: ${JSON.stringify(script)}`);
+    }
+  } else {
+    if (script.hashType === "data") {
+      payload = `02${script.codeHash.slice(2)}${script.args.slice(2)}`;
+    } else if (script.hashType === "type") {
+      payload = `04${script.codeHash.slice(2)}${script.args.slice(2)}`;
+    } else {
+      throw new Error(`Invalid script: ${JSON.stringify(script)}`);
+    }
+  }
+  
+  return bech32.encode(config.networkPrefix, bech32.toWords(Buffer.from(payload, "hex")), 95);
+}
