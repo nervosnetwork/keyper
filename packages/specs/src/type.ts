@@ -1,8 +1,8 @@
 export type Hash256 = string;
 export type Bytes = string;
 export type Since = string;
-export type ScriptHashType = 'data' | 'type';
-export type DepType = 'code' | 'depGroup';
+export type ScriptHashType = "data" | "type";
+export type DepType = "code" | "depGroup";
 
 export interface CellDep {
   outPoint: OutPoint | null,
