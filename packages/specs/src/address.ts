@@ -58,7 +58,7 @@ export function scriptToAddress(script: Script, config: {
   SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH?: string
 } = {
   networkPrefix: "ckb" ,
-  short: false,
+  short: true,
   SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH: "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
 	SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH: "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8"
 }) {
@@ -78,9 +78,10 @@ export function scriptToAddress(script: Script, config: {
     } else if (script.codeHash === config.SECP256K1_BLAKE160_MULTISIG_ALL_TYPE_HASH) {
       payload = `0101${script.args.slice(2)}`;
     } else {
-      throw new Error(`Invalid script: ${JSON.stringify(script)}`);
+      config.short = false;
     }
-  } else {
+  }
+  if (!config.short) {
     if (script.hashType === "data") {
       payload = `02${script.codeHash.slice(2)}${script.args.slice(2)}`;
     } else if (script.hashType === "type") {
