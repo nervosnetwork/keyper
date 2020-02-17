@@ -33,6 +33,7 @@ interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
   getAllLockHashes(): Promise<Hash256[]>
   sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  send(tx: RawTransaction): Promise<Hash256>;
 }
 ```
 

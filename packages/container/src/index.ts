@@ -18,6 +18,7 @@ export interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
   getAllLockHashes(): Promise<Hash256[]>
   sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  send(tx: RawTransaction): Promise<Hash256>;
 }
 
 export interface KeyManager {
@@ -130,5 +131,9 @@ export class Container implements KeyManager, ContainerService {
     // TODO should call user confirm UI
     const result = await holder.lockScript.sign(holder.publicKey.payload, rawTx, config);
     return result;
+  }
+
+  public async send(_tx: RawTransaction): Promise<Hash256> {
+    throw new Error("unsupport for default container");
   }
 }
