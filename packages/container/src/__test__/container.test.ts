@@ -1,10 +1,20 @@
 import { Container } from "..";
-import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config } from "@keyper/specs";
+import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config, SignProvider } from "@keyper/specs";
+
+class TestSignProvider implements SignProvider {
+  async sign(_publicKey: string, message: string): Promise<string> {
+    return message;
+  }
+}
 
 class TestLockScript implements LockScript {
+  headers?(): string[] {
+    throw new Error("Method not implemented.");
+  }
   name = "TestLockScript";
   codeHash = "0x0000000000000000000000000000000000000000000000000000000000000000";
   hashType = "type" as ScriptHashType;
+  provider: SignProvider;
 
   script(publicKey: string): Script {
     return {
@@ -21,15 +31,20 @@ class TestLockScript implements LockScript {
   signatureAlgorithm(): SignatureAlgorithm {
     return SignatureAlgorithm.secp256k1;
   }
+
+  setProvider(provider: SignProvider): void {
+    this.provider = provider;
+  }
   
   async sign(_publicKey: string, rawTx: RawTransaction, _config: Config): Promise<RawTransaction> {
-  return rawTx;
+    return rawTx;
   }
 }
 
 describe("container", () => {
   describe("addLockScript", () => {
-    const container = new Container([SignatureAlgorithm.secp256k1]);
+    const signer = new TestSignProvider();
+    const container = new Container([SignatureAlgorithm.secp256k1], [signer]);
     const lockScript = new TestLockScript();
     test("add one", () => {
       expect(container.lockScriptSize()).toEqual(0);
@@ -45,7 +60,8 @@ describe("container", () => {
   });
 
   describe("addPublicKey", () => {
-    const container = new Container([SignatureAlgorithm.secp256k1]);
+    const signer = new TestSignProvider();
+    const container = new Container([SignatureAlgorithm.secp256k1], [signer]);
     const lockScript = new TestLockScript();
     const publicKey0 = {
       payload: "0x0000000000000000000000000000000000000000000000000000000000000000",

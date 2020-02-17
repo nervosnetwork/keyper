@@ -6,7 +6,8 @@ import {
   Script,
   Hash256,
   RawTransaction,
-  Config
+  Config,
+  SignProvider
 } from "@keyper/specs";
 
 export interface PublicKey {
@@ -35,14 +36,19 @@ interface LockScriptHolder {
 
 export class Container implements KeyManager, ContainerService {
   private algorithms: SignatureAlgorithm[];
+  private providers: SignProvider[];
   private lockScripts: LockScript[];
   private publicKeys: PublicKey[];
   private holders: {
     [lockHash: string]: LockScriptHolder
   };
 
-  public constructor(algorithms: SignatureAlgorithm[]) {
+  public constructor(algorithms: SignatureAlgorithm[], providers: SignProvider[]) {
+    if (algorithms.length !== providers.length) {
+      throw Error("algorithms size must match providers.");
+    }
     this.algorithms = algorithms;
+    this.providers = providers;
     this.lockScripts = [];
     this.publicKeys = [];
     this.holders = {};
@@ -58,9 +64,11 @@ export class Container implements KeyManager, ContainerService {
 
   public addLockScript(lockScript: LockScript) {
     let matched = false;
+    let index = 0;
     for (let i = 0; i < this.algorithms.length; i++) {
       if (this.algorithms[i] === lockScript.signatureAlgorithm()) {
         matched = true;
+        index = i;
         break;
       }
     }
@@ -72,6 +80,7 @@ export class Container implements KeyManager, ContainerService {
         return;
       }
     }
+    lockScript.setProvider(this.providers[index]);
     this.initLockScriptHolders(lockScript);
     this.lockScripts.push(lockScript);
   }

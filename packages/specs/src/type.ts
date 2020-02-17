@@ -30,7 +30,7 @@ export interface OutPoint {
 
 export interface Input {
   previousOutput: OutPoint | null,
-  since?: string,
+  since: string,
 }
 
 export interface Output {
