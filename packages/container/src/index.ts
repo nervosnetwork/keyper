@@ -7,7 +7,7 @@ import {
   Hash256,
   RawTransaction,
   Config
-} from "@keyper/sepcs";
+} from "@keyper/specs";
 
 export interface PublicKey {
   payload: Bytes,
@@ -43,6 +43,17 @@ export class Container implements KeyManager, ContainerService {
 
   public constructor(algorithms: SignatureAlgorithm[]) {
     this.algorithms = algorithms;
+    this.lockScripts = [];
+    this.publicKeys = [];
+    this.holders = {};
+  }
+
+  public lockScriptSize(): number {
+    return this.lockScripts.length;
+  }
+
+  public publicKeySize(): number {
+    return this.publicKeys.length;
   }
 
   public addLockScript(lockScript: LockScript) {
@@ -55,6 +66,11 @@ export class Container implements KeyManager, ContainerService {
     }
     if (!matched) {
       throw Error(`container not support ${lockScript.signatureAlgorithm()} signature algorithm.`);
+    }
+    for (let i = 0; i < this.lockScripts.length; i++) {
+      if (lockScript.codeHash === this.lockScripts[i].codeHash && lockScript.hashType === this.lockScripts[i].hashType) {
+        return;
+      }
     }
     this.initLockScriptHolders(lockScript);
     this.lockScripts.push(lockScript);
@@ -82,6 +98,14 @@ export class Container implements KeyManager, ContainerService {
       if(publicKey.payload === item.payload 
           && publicKey.algorithm == item.algorithm) {
         this.publicKeys.splice(index, 1);
+        Object.keys(this.holders).map(lockHash => {
+          const holder = this.holders[lockHash];
+          if (holder.publicKey.algorithm === publicKey.algorithm
+              && holder.publicKey.payload === publicKey.payload) {
+            delete this.holders[lockHash];
+          }
+        });
+        return;
       }
     });
   }
