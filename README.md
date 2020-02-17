@@ -50,3 +50,11 @@ interface LockScript {
   sign(publicKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
 ```
+
+## Development
+
+```
+yarn run reboot
+yarn run build
+yarn run test
+```
