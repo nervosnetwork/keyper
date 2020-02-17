@@ -23,7 +23,7 @@
     "clean:build": "rm -rf lib types *.tsbuildinfo"
   },
   "dependencies": {
-    "@nervosnetwork/ckb-sdk-core": "0.26.0",
-    "@keyper/specs": "^0.0.1"
+    "@keyper/specs": "^0.0.1",
+    "@nervosnetwork/ckb-sdk-core": "0.26.0"
   }
 }
