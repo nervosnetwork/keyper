@@ -21,6 +21,10 @@ interface PublicKey {
   algorithm: SignatureAlgorithm
 }
 
+interface SignProvider {
+  sign(publicKey: string, message: Bytes): Promise<Bytes>;
+}
+
 interface KeyManager {
   addLockScript(lockScript: LockScript): void
   addPublicKey(publicKey: PublicKey): void
@@ -46,6 +50,7 @@ interface LockScript {
   readonly name: string;
   readonly codeHash: Hash256;
   readonly hashType: ScriptHashType;
+  setProvider(provider: SignProvider): void;
   script(publicKey: string): Script;
   deps(): CellDep[];
   headers?(): Hash256[];
