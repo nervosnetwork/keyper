@@ -13,7 +13,7 @@
     "build": "lerna run clean:build && lerna run build",
     "lint": "eslint . --ext .js,.ts --fix",
     "lint:nofix": "eslint . --ext .js,.ts",
-    "publish": "yarn run build && lerna publish from-package",
+    "publish": "yarn run build && lerna publish from-package --access=public",
     "test": "jest --coverage"
   },
   "workspaces": [
