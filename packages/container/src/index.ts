@@ -43,15 +43,17 @@ export class Container implements KeyManager, ContainerService {
     [lockHash: string]: LockScriptHolder
   };
 
-  public constructor(algorithms: SignatureAlgorithm[], providers: SignProvider[]) {
-    if (algorithms.length !== providers.length) {
-      throw Error("algorithms size must match providers.");
-    }
-    this.algorithms = algorithms;
-    this.providers = providers;
+  public constructor(algorithms: {algorithm: SignatureAlgorithm, provider: SignProvider}[]) {
+    this.algorithms = [];
+    this.providers = [];
     this.lockScripts = [];
     this.publicKeys = [];
     this.holders = {};
+
+    algorithms.forEach(item => {
+      this.algorithms.push(item.algorithm);
+      this.providers.push(item.provider);
+    });
   }
 
   public lockScriptSize(): number {

@@ -44,7 +44,7 @@ class TestLockScript implements LockScript {
 describe("container", () => {
   describe("addLockScript", () => {
     const signer = new TestSignProvider();
-    const container = new Container([SignatureAlgorithm.secp256k1], [signer]);
+    const container = new Container([{algorithm: SignatureAlgorithm.secp256k1, provider: signer}]);
     const lockScript = new TestLockScript();
     test("add one", () => {
       expect(container.lockScriptSize()).toEqual(0);
@@ -61,7 +61,7 @@ describe("container", () => {
 
   describe("addPublicKey", () => {
     const signer = new TestSignProvider();
-    const container = new Container([SignatureAlgorithm.secp256k1], [signer]);
+    const container = new Container([{algorithm: SignatureAlgorithm.secp256k1, provider: signer}]);
     const lockScript = new TestLockScript();
     const publicKey0 = {
       payload: "0x0000000000000000000000000000000000000000000000000000000000000000",
