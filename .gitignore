@@ -4,3 +4,4 @@ lib/
 types/
 *.tsbuildinfo
 *.log
+/coverage
