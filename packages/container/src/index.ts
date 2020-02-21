@@ -7,19 +7,30 @@ import {
   Hash256,
   RawTransaction,
   Config,
-  SignProvider
+  SignProvider,
+  CellDep
 } from "@keyper/specs";
 
 export interface PublicKey {
-  payload: Bytes,
+  payload: Bytes
   algorithm: SignatureAlgorithm
+}
+
+export interface TransactionMeta {
+  deps: CellDep[]
+  headers?: Hash256[]
+}
+
+export interface LockHashWithMeta {
+  hash: Hash256
+  meta: TransactionMeta
 }
 
 export interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
-  getAllLockHashes(): Promise<Hash256[]>
-  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
-  send(tx: RawTransaction): Promise<Hash256>;
+  getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
+  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
+  send(tx: RawTransaction): Promise<Hash256>
 }
 
 export interface KeyManager {
@@ -153,8 +164,16 @@ export class Container implements KeyManager, ContainerService {
     return Object.keys(this.holders).map(lockHash => this.holders[lockHash].script);
   }
 
-  public async getAllLockHashes(): Promise<Hash256[]> {
-    return Object.keys(this.holders);
+  public async getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]> {
+    return Object.keys(this.holders).map(lockHash => {
+      return {
+        hash: lockHash,
+        meta: {
+          deps: this.holders[lockHash].lockScript.deps(),
+          headers: this.holders[lockHash].lockScript.headers? this.holders[lockHash].lockScript.headers!() : undefined,
+        },
+      };
+    });
   }
 
   public async sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction> {

@@ -17,12 +17,12 @@ Key Manager should integrate `@keyper/container` module or `@keyper/container` p
 
 ```
 interface PublicKey {
-  payload: Bytes,
+  payload: Bytes
   algorithm: SignatureAlgorithm
 }
 
 interface SignProvider {
-  sign(publicKey: string, message: Bytes): Promise<Bytes>;
+  sign(publicKey: string, message: Bytes): Promise<Bytes>
 }
 
 interface KeyManager {
@@ -35,11 +35,21 @@ interface KeyManager {
 ## dApp Integration
 
 ```
+interface TransactionMeta {
+  deps: CellDep[]
+  headers?: Hash256[]
+}
+
+interface LockHashWithMeta {
+  hash: Hash256
+  meta: TransactionMeta
+}
+
 interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
-  getAllLockHashes(): Promise<Hash256[]>
-  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
-  send(tx: RawTransaction): Promise<Hash256>;
+  getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
+  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
+  send(tx: RawTransaction): Promise<Hash256>
 }
 ```
 
