@@ -11,5 +11,5 @@ yarn run build
 ## Usage
 
 ```
-const container = require('@keper/container');
+const container = require('@keyper/container');
 ```
