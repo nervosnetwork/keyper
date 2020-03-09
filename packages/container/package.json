@@ -1,6 +1,6 @@
 {
   "name": "@keyper/container",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "keyper container",
   "keywords": [
     "keyper",
@@ -23,8 +23,9 @@
     "clean:build": "rm -rf lib types *.tsbuildinfo"
   },
   "dependencies": {
-    "@keyper/specs": "^0.0.3",
-    "@nervosnetwork/ckb-sdk-core": "0.26.0"
+    "@keyper/specs": "^0.0.4",
+    "@nervosnetwork/ckb-sdk-core": "0.29.1",
+    "number-to-bn": "1.7.0"
   },
   "publishConfig": {
     "access": "public"

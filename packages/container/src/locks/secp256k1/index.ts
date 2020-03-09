@@ -1,6 +1,7 @@
+const numberToBN = require("number-to-bn");
 import * as utils from "@nervosnetwork/ckb-sdk-utils";
 import { 
-  LockScript, ScriptHashType, Script, CellDep, DepType, SignatureAlgorithm, RawTransaction, Config, SignProvider, DefaultAllConfig
+  LockScript, ScriptHashType, Script, CellDep, DepType, SignatureAlgorithm, RawTransaction, Config, SignProvider
 } from "@keyper/specs";
 
 export class Secp256k1LockScript implements LockScript {
@@ -61,14 +62,14 @@ export class Secp256k1LockScript implements LockScript {
 
     const s = utils.blake2b(32, null, null, utils.PERSONAL);
     s.update(utils.hexToBytes(txHash));
-    s.update(utils.hexToBytes(utils.toHexInLittleEndian(serialziedEmptyWitnessSize.toString(), 8)));
+    s.update(utils.hexToBytes(utils.toHexInLittleEndian(`0x${numberToBN(serialziedEmptyWitnessSize).toString(16)}`, 8)));
     s.update(serializedEmptyWitnessBytes);
 
     for (let i = config.index + 1; i < config.index + config.length; i++) {
       const w = rawTx.witnesses[i];
       // @ts-ignore
       const bytes = utils.hexToBytes(typeof w === 'string' ? w : utils.serializeWitnessArgs(w));
-      s.update(utils.hexToBytes(utils.toHexInLittleEndian(bytes.length.toString(), 8)));
+      s.update(utils.hexToBytes(utils.toHexInLittleEndian(`0x${numberToBN(bytes.length).toString(16)}`, 8)));
       s.update(bytes);
     }
 
@@ -79,4 +80,4 @@ export class Secp256k1LockScript implements LockScript {
 
     return rawTx;
   }
-} 
+}

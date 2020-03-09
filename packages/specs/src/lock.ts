@@ -24,5 +24,5 @@ export interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   signatureAlgorithm(): SignatureAlgorithm;
-  sign(publicKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  sign(privateKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
