@@ -12,7 +12,7 @@ export class DefaultAllConfig implements Config {
 }
 
 export interface SignProvider {
-  sign(publicKey: string, message: Bytes): Promise<Bytes>;
+  sign(address: string, message: Bytes): Promise<Bytes>;
 }
 
 export interface LockScript {
@@ -24,5 +24,5 @@ export interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   signatureAlgorithm(): SignatureAlgorithm;
-  sign(privateKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  sign(address: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }

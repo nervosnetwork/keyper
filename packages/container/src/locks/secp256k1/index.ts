@@ -37,7 +37,7 @@ export class Secp256k1LockScript implements LockScript {
     this.provider = provider;
   }
 
-  public async sign(privateKey: string, rawTx: RawTransaction, config: Config = {index: 0, length: -1}): Promise<RawTransaction> {
+  public async sign(address: string, rawTx: RawTransaction, config: Config = {index: 0, length: -1}): Promise<RawTransaction> {
     const txHash = utils.rawTransactionToHash(rawTx);
 
     if (config.length  === -1) {
@@ -74,9 +74,11 @@ export class Secp256k1LockScript implements LockScript {
     }
 
     const message = `0x${s.digest('hex')}`;
-    const signd = await this.provider.sign(privateKey, message);
+    const signd = await this.provider.sign(address, message);
     // @ts-ignore
     rawTx.witnesses[config.index].lock = signd;
+    // @ts-ignore
+    rawTx.witnesses[config.index] = utils.serializeWitnessArgs(rawTx.witnesses[config.index]);
 
     return rawTx;
   }

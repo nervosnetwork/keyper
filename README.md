@@ -22,7 +22,7 @@ interface PublicKey {
 }
 
 interface SignProvider {
-  sign(publicKey: string, message: Bytes): Promise<Bytes>
+  sign(address: string, message: Bytes): Promise<Bytes>
 }
 
 interface KeyManager {
@@ -65,7 +65,7 @@ interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   signatureAlgorithm(): SignatureAlgorithm;
-  sign(privateKey: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  sign(address: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
 ```
 

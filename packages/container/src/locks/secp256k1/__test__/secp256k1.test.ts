@@ -14,8 +14,8 @@ describe("secp256k1 lockscript", () => {
   test("sign", async () => {
     const lock = new Secp256k1LockScript();
     await lock.setProvider({
-      sign: async function(_publicKey: string, _message: string) {
-        return "0x000000000000000000000000000000000000000000000000000000000000000001";
+      sign: async function(_address: string, _message: string) {
+        return "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
       }
     });
 
