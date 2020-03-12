@@ -38,6 +38,7 @@ export interface ContainerService {
 export interface KeyManager {
   addLockScript(lockScript: LockScript): void
   addPublicKey(publicKey: PublicKey): void
+  getScripsByPublicKey(publicKey: PublicKey): Script[]
   removePublicKey(publicKey: PublicKey): void
 }
 
@@ -112,6 +113,18 @@ export class Container implements KeyManager, ContainerService {
     }
     this.initPublicKeyHolders(publicKey);
     this.publicKeys.push(publicKey);
+  }
+
+  public getScripsByPublicKey(publicKey: PublicKey): Script[] {
+    const result:Script[] = [];
+    Object.keys(this.holders).forEach(lockHash => {
+      const holder = this.holders[lockHash];
+      if (holder.publicKey.algorithm === publicKey.algorithm
+          && holder.publicKey.payload === publicKey.payload) {
+        result.push(holder.script);
+      }
+    });
+    return result;
   }
 
   public removePublicKey(publicKey: PublicKey) {
