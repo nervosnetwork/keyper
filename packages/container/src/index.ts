@@ -8,7 +8,8 @@ import {
   RawTransaction,
   Config,
   SignProvider,
-  CellDep
+  CellDep,
+  SignContext
 } from "@keyper/specs";
 
 export interface PublicKey {
@@ -29,7 +30,7 @@ export interface LockHashWithMeta {
 export interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
   getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
-  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
+  sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
   send(tx: RawTransaction): Promise<Hash256>
 }
 
@@ -176,14 +177,13 @@ export class Container implements KeyManager, ContainerService {
     });
   }
 
-  public async sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction> {
-    if (!this.holders[lockHash]) {
-      throw Error(`${lockHash} not exists`);
+  public async sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction> {
+    if (!context.lockHash || !this.holders[context.lockHash]) {
+      throw Error("context hash or holder not exists");
     }
-    const holder = this.holders[lockHash];
+    const holder = this.holders[context.lockHash];
 
-    // TODO should call user confirm UI
-    const result = await holder.lockScript.sign(holder.publicKey.payload, rawTx, config);
+    const result = await holder.lockScript.sign(context, rawTx, config);
     return result;
   }
 

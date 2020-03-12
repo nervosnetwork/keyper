@@ -1,8 +1,8 @@
 import { Container } from "..";
-import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config, SignProvider, DepType, Hash256 } from "@keyper/specs";
+import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config, SignProvider, DepType, Hash256, SignContext } from "@keyper/specs";
 
 class TestSignProvider implements SignProvider {
-  async sign(_publicKey: string, message: string): Promise<string> {
+  async sign(_context: SignContext, message: string): Promise<string> {
     return message;
   }
 }
@@ -39,7 +39,7 @@ class TestLockScript implements LockScript {
     this.provider = provider;
   }
   
-  async sign(_publicKey: string, rawTx: RawTransaction, _config: Config): Promise<RawTransaction> {
+  async sign(_context: SignContext, rawTx: RawTransaction, _config: Config): Promise<RawTransaction> {
     return rawTx;
   }
 }

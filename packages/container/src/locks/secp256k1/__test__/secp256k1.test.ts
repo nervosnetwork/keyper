@@ -1,3 +1,4 @@
+import { SignContext } from "@keyper/specs";
 import { Secp256k1LockScript } from "..";
 
 describe("secp256k1 lockscript", () => {
@@ -14,12 +15,12 @@ describe("secp256k1 lockscript", () => {
   test("sign", async () => {
     const lock = new Secp256k1LockScript();
     await lock.setProvider({
-      sign: async function(_address: string, _message: string) {
+      sign: async function(_context: SignContext, _message: string) {
         return "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
       }
     });
 
-    const tx = await lock.sign("0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890", {
+    const tx = await lock.sign({lockHash: "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890"}, {
       version: "0x0",
       cellDeps: [{
         outPoint: {

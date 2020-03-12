@@ -11,8 +11,12 @@ export class DefaultAllConfig implements Config {
   length: number = -1;
 }
 
+export interface SignContext {
+  [propName: string]: any;
+}
+
 export interface SignProvider {
-  sign(address: string, message: Bytes): Promise<Bytes>;
+  sign(context: SignContext, message: Bytes): Promise<Bytes>;
 }
 
 export interface LockScript {
@@ -24,5 +28,5 @@ export interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   signatureAlgorithm(): SignatureAlgorithm;
-  sign(address: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }

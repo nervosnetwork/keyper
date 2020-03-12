@@ -1,7 +1,7 @@
 const numberToBN = require("number-to-bn");
 import * as utils from "@nervosnetwork/ckb-sdk-utils";
 import { 
-  LockScript, ScriptHashType, Script, CellDep, DepType, SignatureAlgorithm, RawTransaction, Config, SignProvider
+  LockScript, ScriptHashType, Script, CellDep, DepType, SignatureAlgorithm, RawTransaction, Config, SignProvider, SignContext
 } from "@keyper/specs";
 
 export class Secp256k1LockScript implements LockScript {
@@ -37,7 +37,7 @@ export class Secp256k1LockScript implements LockScript {
     this.provider = provider;
   }
 
-  public async sign(address: string, rawTx: RawTransaction, config: Config = {index: 0, length: -1}): Promise<RawTransaction> {
+  public async sign(context: SignContext, rawTx: RawTransaction, config: Config = {index: 0, length: -1}): Promise<RawTransaction> {
     const txHash = utils.rawTransactionToHash(rawTx);
 
     if (config.length  === -1) {
@@ -74,7 +74,7 @@ export class Secp256k1LockScript implements LockScript {
     }
 
     const message = `0x${s.digest('hex')}`;
-    const signd = await this.provider.sign(address, message);
+    const signd = await this.provider.sign(context, message);
     // @ts-ignore
     rawTx.witnesses[config.index].lock = signd;
     // @ts-ignore
