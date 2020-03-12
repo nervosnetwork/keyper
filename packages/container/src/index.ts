@@ -181,6 +181,7 @@ export class Container implements KeyManager, ContainerService {
       throw Error("context hash or holder not exists");
     }
     const holder = this.holders[context.lockHash];
+    context["publicKey"] = holder.publicKey.payload;
 
     const result = await holder.lockScript.sign(context, rawTx, config);
     return result;
