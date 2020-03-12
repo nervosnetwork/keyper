@@ -22,7 +22,7 @@ interface PublicKey {
 }
 
 interface SignProvider {
-  sign(address: string, message: Bytes): Promise<Bytes>
+  sign(context: SignContext, message: Bytes): Promise<Bytes>
 }
 
 interface KeyManager {
@@ -48,7 +48,7 @@ interface LockHashWithMeta {
 interface ContainerService {
   getAllLockScripts(): Promise<Script[]>
   getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
-  sign(lockHash: Hash256, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
+  sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
   send(tx: RawTransaction): Promise<Hash256>
 }
 ```
@@ -65,7 +65,7 @@ interface LockScript {
   deps(): CellDep[];
   headers?(): Hash256[];
   signatureAlgorithm(): SignatureAlgorithm;
-  sign(address: string, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
+  sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>;
 }
 ```
 
