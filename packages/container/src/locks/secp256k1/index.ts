@@ -5,7 +5,7 @@ import {
 } from "@keyper/specs";
 
 export class Secp256k1LockScript implements LockScript {
-  public readonly name: string = "Secp256k1LockScript";
+  public readonly name: string = "Secp256k1";
   public readonly codeHash: string = "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8";
   public readonly hashType: ScriptHashType = "type";
   private provider: SignProvider;

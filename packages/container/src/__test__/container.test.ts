@@ -117,31 +117,10 @@ describe("container", () => {
         }]
       }));
 
-      let scripts = await container.getAllLockScripts();
-      expect(scripts.length).toEqual(2);
-      expect(scripts[0]).toEqual(expect.objectContaining({
-        codeHash: "0x0000000000000000000000000000000000000000000000000000000000000100",
-        hashType: "type",
-        args: "0x0000000000000000000000000000000000000000000000000000000000000001"
-      }));
-      expect(scripts[1]).toEqual(expect.objectContaining({
-        codeHash: "0x0000000000000000000000000000000000000000000000000000000000000100",
-        hashType: "type",
-        args: "0x0000000000000000000000000000000000000000000000000000000000000002"
-      }));
-
       container.removePublicKey(publicKey0);
       expect(container.publicKeySize()).toEqual(1);
       hashes = await container.getAllLockHashesAndMeta();
       expect(hashes.length).toEqual(1);
-
-      scripts = await container.getAllLockScripts();
-      expect(scripts.length).toEqual(1);
-      expect(scripts[0]).toEqual(expect.objectContaining({
-        codeHash: "0x0000000000000000000000000000000000000000000000000000000000000100",
-        hashType: "type",
-        args: "0x0000000000000000000000000000000000000000000000000000000000000002"
-      }));
 
       hashes = await container.getAllLockHashesAndMeta();
       expect(hashes.length).toEqual(1);
@@ -163,8 +142,6 @@ describe("container", () => {
       expect(container.publicKeySize()).toEqual(0);
       hashes = await container.getAllLockHashesAndMeta();
       expect(hashes.length).toEqual(0);
-      const scripts = await container.getAllLockScripts();
-      expect(scripts.length).toEqual(0);
     });
   });
 

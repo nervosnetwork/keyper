@@ -36,6 +36,8 @@ interface KeyManager {
 
 ```
 interface TransactionMeta {
+  name: string
+  script: Script
   deps: CellDep[]
   headers?: Hash256[]
 }
@@ -46,7 +48,6 @@ interface LockHashWithMeta {
 }
 
 interface ContainerService {
-  getAllLockScripts(): Promise<Script[]>
   getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
   sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
   send(tx: RawTransaction): Promise<Hash256>

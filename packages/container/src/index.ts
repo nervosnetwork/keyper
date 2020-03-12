@@ -18,6 +18,8 @@ export interface PublicKey {
 }
 
 export interface TransactionMeta {
+  name: string
+  script: Script
   deps: CellDep[]
   headers?: Hash256[]
 }
@@ -28,7 +30,6 @@ export interface LockHashWithMeta {
 }
 
 export interface ContainerService {
-  getAllLockScripts(): Promise<Script[]>
   getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
   sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
   send(tx: RawTransaction): Promise<Hash256>
@@ -161,15 +162,13 @@ export class Container implements KeyManager, ContainerService {
     });
   }
 
-  public async getAllLockScripts(): Promise<Script[]> {
-    return Object.keys(this.holders).map(lockHash => this.holders[lockHash].script);
-  }
-
   public async getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]> {
     return Object.keys(this.holders).map(lockHash => {
       return {
         hash: lockHash,
         meta: {
+          name: this.holders[lockHash].lockScript.name,
+          script: this.holders[lockHash].script,
           deps: this.holders[lockHash].lockScript.deps(),
           headers: this.holders[lockHash].lockScript.headers? this.holders[lockHash].lockScript.headers!() : undefined,
         },
