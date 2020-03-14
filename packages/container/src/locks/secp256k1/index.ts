@@ -1,7 +1,7 @@
 const numberToBN = require("number-to-bn");
 import * as utils from "@nervosnetwork/ckb-sdk-utils";
 import { 
-  LockScript, ScriptHashType, Script, CellDep, DepType, SignatureAlgorithm, RawTransaction, Config, SignProvider, SignContext
+  LockScript, ScriptHashType, Script, CellDep, SignatureAlgorithm, RawTransaction, Config, SignProvider, SignContext
 } from "@keyper/specs";
 
 export class Secp256k1LockScript implements LockScript {
@@ -25,7 +25,7 @@ export class Secp256k1LockScript implements LockScript {
         txHash: "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
         index: "0x0",
       },
-      depType: "dep_group" as DepType,
+      depType: "depGroup",
     }];
   }
 
