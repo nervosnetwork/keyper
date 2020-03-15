@@ -196,6 +196,41 @@ export class Container implements KeyManager, ContainerService {
     const holder = this.holders[context.lockHash];
     context["publicKey"] = holder.publicKey.payload;
 
+    const deps = holder.lockScript.deps();
+    for (let i = 0; i < deps.length; i++) {
+      const dep = deps[i];
+      let found = false;
+      for (let j = 0; j < rawTx.cellDeps.length; j++) {
+        const txDep = rawTx.cellDeps[j];
+        if (txDep.depType === dep.depType
+            && txDep.outPoint?.txHash === dep.outPoint?.txHash
+            && txDep.outPoint?.index == dep.outPoint?.index) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        rawTx.cellDeps.push(dep);
+      }
+    }
+    if (holder.lockScript.headers) {
+      const headers = holder.lockScript.headers();
+      for (let i = 0; i < headers.length; i++) {
+        const header = headers[i];
+        let found = false;
+        for (let j = 0; j < rawTx.headerDeps.length; j++) {
+          const txHeader = rawTx.headerDeps[j];
+          if(txHeader === header) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          rawTx.headerDeps.push(header);
+        }
+      }
+    }
+
     const result = await holder.lockScript.sign(context, rawTx, config);
     return result;
   }
