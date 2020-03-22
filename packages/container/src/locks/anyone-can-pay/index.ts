@@ -4,20 +4,20 @@ import {
   LockScript, ScriptHashType, Script, CellDep, SignatureAlgorithm, RawTransaction, Config, SignProvider, SignContext
 } from "@keyper/specs";
 
-export class Secp256k1LockScript implements LockScript {
-  public readonly name: string = "Secp256k1";
-  public codeHash: string = "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8";
-  public hashType: ScriptHashType = "type";
+export class AnyPayLockScript implements LockScript {
+  public readonly name = "AnyPay";
+  public codeHash: string;
+  public hashType: ScriptHashType;
   private _deps: CellDep[];
   private provider: SignProvider;
 
   public constructor(
-    codeHash = "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+    codeHash = "0x390e1c7cb59fbd5cf9bfb9370acb0d2bbbbbcf4136c90b2f3ea5277b4c13b540",
     hashType:ScriptHashType = "type",
     deps:CellDep[] = [{
       outPoint: {
-        txHash: "0x84dcb061adebff4ef93d57c975ba9058a9be939d79ea12ee68003f6492448890",
-        index: "0x0",
+        txHash: "0xf860285b77069801f91d32a316bf07c8caee7ff1ab39b506d6708de7dd88595f",
+        index: "0x0"
       },
       depType: "depGroup",
     }]
@@ -27,6 +27,10 @@ export class Secp256k1LockScript implements LockScript {
     this._deps = deps;
   }
 
+  public deps(): CellDep[] {
+    return this._deps;
+  }
+
   public script(publicKey: string): Script {
     const args = utils.blake160(publicKey);
     return {
@@ -34,10 +38,6 @@ export class Secp256k1LockScript implements LockScript {
       hashType: this.hashType,
       args: `0x${Buffer.from(args).toString("hex")}`
     };
-  }
-
-  public deps(): CellDep[] {
-    return this._deps;
   }
 
   public signatureAlgorithm(): SignatureAlgorithm {
