@@ -1,19 +1,25 @@
 Keyper
 ======
 
-> Ownership layer for Nervos CKB
+> Keyper is still under development and NOT production ready. Future versions may introduce interface changes which are not backwards compatibile with this version.
 
-> The Keyper is still under development and NOT production ready. We do not guarantee interface compatibility.
+Keyper is an ownership layer for the Nervos CKB blockchain.
 
-Keyper is bridge layer for wallet key manager mudule and dApp. dApp developers can use Keyper to interact with keyper-enabled wallets, include mainstream wallet applications and hardware wallets.
+Nervos LockScripts provide a high level of flexibility, but it can be challenging for wallets to support all the different variations. Keyper is specification for the efficient management of LockScripts. The Keyper reference implementation is written in TypeScript.
 
-Keyper also a LockScript container for Nervos. Keyper can convert wallet-managed private keys into LockScript instances, so dApp applications can use LockScirpt to build dApp logic.
+Keyper's interface specification provides developers with a standardized way to interact with any Keyper-enabled wallet. This can include mainstream wallets of any type, including integrated wallets in applications, web browser based wallets, and hardware wallets.
 
-## Key Manager(Wallet) Integration
+The Keyper project is divided into two sub-projects: `specs` and `container`. 
 
-Key Manager is responsible for managing the user's private key and the implementation of the core encryption algorithm. The private key can be an independent private keys or HD wallet keys.
+The `specs` subproject contains all specification definitions and tool class support.
 
-Key Manager should integrate `@keyper/container` module or `@keyper/container` protocol interface for support Keyper architecture.
+The `container` subproject is designed to support the loading of custom LockScripts within wallets.
+
+## Key Manager (Wallet) Integration
+
+A Key Manager is the component of a wallet responsible for managing the user's private keys. Private keys can be either raw private keys or HD wallet keys.
+
+A Key Manager should integrate the `@keyper/container` module or the `@keyper/container` protocol interface in order to support the Keyper architecture.
 
 ```
 interface PublicKey {
@@ -70,10 +76,11 @@ interface LockScript {
 }
 ```
 
-`name`, `codeHash` and `hashType` is LockScript basic information.
+The LockScript basic information keys are `name`, `codeHash` and `hashType`.
 
-`setProvider` is callback function for implementation of the underlying signature algorithm. This is provide by keyper container.
-For example, below is keyper scatter `secp256k1` signature algorithm implementation:
+The `setProvider` key is a callback function for implementation of the underlying signature algorithm. This is provided by Keyper `container`.
+
+For example, below is the Keyper Scatter `secp256k1` signature algorithm implementation:
 
 ```
 public sign(context: SignContext, message: Bytes): Promise<Bytes> {
@@ -99,7 +106,7 @@ public sign(context: SignContext, message: Bytes): Promise<Bytes> {
 }
 ```
 
-`script` method implment public key to Script transfer, below is Secp256k1 implementation:
+The `script` key is a method that implments public key to Script transfer. Below is a Secp256k1 implementation:
 
 ```
 public script(publicKey: string): Script {
@@ -112,7 +119,7 @@ public script(publicKey: string): Script {
 }
 ```
 
-`deps` and `headers` returns LockScript sources deployed detail, below is secp256k1 implementation:
+The `deps` and `headers` keys contain LockScript source details. Below is secp256k1 implementation:
 
 ```
 public deps(): CellDep[] {
@@ -126,9 +133,9 @@ public deps(): CellDep[] {
 }
 ```
 
-`signatureAlgorithm` returns supported signature algorithm for this LockScript.
+The `signatureAlgorithm` key returns the supported signature algorithm for this LockScript.
 
-`sign` implement sign witnesses progress, can implement partial signature through `config` parameter, below is seck256k1 sign:
+The `sign` key is a method that implements signing functionality for a transaction. Partial signatures can be accomplished using the `config` parameter. Below is seck256k1 signing example:
 
 ```
 public async sign(context: SignContext, rawTx: RawTransaction, config: Config = {index: 0, length: -1}): Promise<RawTransaction> {
@@ -178,15 +185,40 @@ public async sign(context: SignContext, rawTx: RawTransaction, config: Config = 
 }
 ```
 
-## Development
+## Development of Keyper
 
+### Prerequisites
+
+The following must be installed available to build this project.
+
+- NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- Yarn https://classic.yarnpkg.com/en/docs/install
+
+### Setup and Building
+
+Install all dependencies. This must be run once after cloning the repository.
+```
+yarn install
+```
+
+Clean old builds, install dependencies, and bootstrap the project. This should be run after cloning, and can be run repeatedly when needed.
 ```
 yarn run reboot
+```
+
+Build all project components.
+```
 yarn run build
+```
+
+Test all project components.
+```
 yarn run test
 ```
 
-## Install
+## Installing as a Dependency
+
+To install Keyper as a dependency in another project without manually building use the following.
 
 ```
 npm i @keyper/specs
