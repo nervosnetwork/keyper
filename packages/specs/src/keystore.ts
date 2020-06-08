@@ -2,7 +2,7 @@ import * as crypto from "crypto";
 const blake2b = require("blake2b");
 const randomBytes = require( "randombytes");
 const scrypt = require( "scrypt.js");
-const uuidv4 = require( "uuid/v4");
+const uuidv4 = require( "uuid").v4;
 
 interface V3Params {
   kdf: string
