@@ -31,6 +31,7 @@ export interface LockHashWithMeta {
 
 export interface ContainerService {
   getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]>
+  getLockHashesAndMetaByPublicKey(publicKey: PublicKey): Promise<LockHashWithMeta[]>
   sign(context: SignContext, rawTx: RawTransaction, config: Config): Promise<RawTransaction>
   send(tx: RawTransaction): Promise<Hash256>
 }
@@ -38,7 +39,7 @@ export interface ContainerService {
 export interface KeyManager {
   addLockScript(lockScript: LockScript): void
   addPublicKey(publicKey: PublicKey): void
-  getScripsByPublicKey(publicKey: PublicKey): Script[]
+  getScriptsByPublicKey(publicKey: PublicKey): Script[]
   removePublicKey(publicKey: PublicKey): void
 }
 
@@ -115,7 +116,7 @@ export class Container implements KeyManager, ContainerService {
     this.publicKeys.push(publicKey);
   }
 
-  public getScripsByPublicKey(publicKey: PublicKey): Script[] {
+  public getScriptsByPublicKey(publicKey: PublicKey): Script[] {
     const result:Script[] = [];
     Object.keys(this.holders).forEach(lockHash => {
       const holder = this.holders[lockHash];
@@ -177,6 +178,23 @@ export class Container implements KeyManager, ContainerService {
 
   public async getAllLockHashesAndMeta(): Promise<LockHashWithMeta[]> {
     return Object.keys(this.holders).map(lockHash => {
+      return {
+        hash: lockHash,
+        meta: {
+          name: this.holders[lockHash].lockScript.name,
+          script: this.holders[lockHash].script,
+          deps: this.holders[lockHash].lockScript.deps(),
+          headers: this.holders[lockHash].lockScript.headers? this.holders[lockHash].lockScript.headers!() : undefined,
+        },
+      };
+    });
+  }
+
+  public async getLockHashesAndMetaByPublicKey(publicKey: PublicKey): Promise<LockHashWithMeta[]> {
+    return Object.keys(this.holders).filter(lockHash => {
+      const target = this.holders[lockHash].publicKey;
+      return publicKey.algorithm === target.algorithm && publicKey.payload === target.payload;
+    }).map(lockHash => {
       return {
         hash: lockHash,
         meta: {
