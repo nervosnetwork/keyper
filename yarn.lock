@@ -429,6 +429,19 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@keyper/specs@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@keyper/specs/-/specs-0.0.7.tgz#785d5dda0828637e7590a2afd943327ad26804eb"
+  integrity sha512-zCEpt7RhjlguBEt/UXsy8zXmAP5Wqb/ZZI7XI/u+8xOYxapE0hac2cxK0zTEJdj6Ubr4DkAj9mZOwHlHsvRkjg==
+  dependencies:
+    "@types/bech32" "^1.1.2"
+    bech32 "^1.1.3"
+    blake2b "^2.1.3"
+    crypto "^1.0.1"
+    randombytes "^2.1.0"
+    scrypt.js "^0.3.0"
+    uuid "^7.0.1"
+
 "@lerna/add@3.21.0":
   version "3.21.0"
   resolved "https://registry.npm.taobao.org/@lerna/add/download/@lerna/add-3.21.0.tgz?cache=0&sync_timestamp=1589331696441&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40lerna%2Fadd%2Fdownload%2F%40lerna%2Fadd-3.21.0.tgz#27007bde71cc7b0a2969ab3c2f0ae41578b4577b"
@@ -4670,9 +4683,9 @@ lodash.uniq@^4.5.0:
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
 lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.2.1:
-  version "4.17.15"
-  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz?cache=0&sync_timestamp=1580303049395&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loose-envify@^1.0.0:
   version "1.4.0"
