@@ -5,7 +5,7 @@ import {
 } from "@keyper/specs";
 
 export class AnyPayLockScript implements LockScript {
-  public readonly name = "AnyPay";
+  public readonly name = "Anyone Can Pay";
   public codeHash: string;
   public hashType: ScriptHashType;
   private _deps: CellDep[];
