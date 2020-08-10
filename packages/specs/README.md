@@ -11,5 +11,5 @@ yarn run build
 ## Usage
 
 ```
-const specs = require('@keyper/specs');
+const specs = require('@nervosnetwork/keyper-specs');
 ```

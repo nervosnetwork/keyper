@@ -2,7 +2,7 @@ const numberToBN = require("number-to-bn");
 import * as utils from "@nervosnetwork/ckb-sdk-utils";
 import { 
   LockScript, ScriptHashType, Script, CellDep, SignatureAlgorithm, RawTransaction, Config, SignProvider, SignContext
-} from "@keyper/specs";
+} from "@nervosnetwork/keyper-specs";
 
 export class Secp256k1LockScript implements LockScript {
   public readonly name: string = "Secp256k1";

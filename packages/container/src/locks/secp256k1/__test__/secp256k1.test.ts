@@ -1,4 +1,4 @@
-import { SignContext } from "@keyper/specs";
+import { SignContext } from "@nervosnetwork/keyper-specs";
 import { Secp256k1LockScript } from "..";
 
 describe("secp256k1 lockscript", () => {

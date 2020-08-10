@@ -10,7 +10,7 @@ import {
   SignProvider,
   CellDep,
   SignContext
-} from "@keyper/specs";
+} from "@nervosnetwork/keyper-specs";
 
 export interface PublicKey {
   payload: Bytes
