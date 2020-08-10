@@ -19,7 +19,7 @@ The `container` subproject is designed to support the loading of custom LockScri
 
 A Key Manager is the component of a wallet responsible for managing the user's private keys. Private keys can be either raw private keys or HD wallet keys.
 
-A Key Manager should integrate the `@keyper/container` module or the `@keyper/container` protocol interface in order to support the Keyper architecture.
+A Key Manager should integrate the `@nervosnetwork/keyper-container` module or the `@nervosnetwork/keyper-container` protocol interface in order to support the Keyper architecture.
 
 ```
 interface PublicKey {
@@ -221,6 +221,6 @@ yarn run test
 To install Keyper as a dependency in another project without manually building use the following.
 
 ```
-npm i @keyper/specs
-npm i @keyper/container
+npm i @nervosnetwork/keyper-specs
+npm i @nervosnetwork/keyper-container
 ```

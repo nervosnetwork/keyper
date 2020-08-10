@@ -1,5 +1,5 @@
 import { Container } from "..";
-import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config, SignProvider, DepType, Hash256, SignContext } from "@keyper/specs";
+import { SignatureAlgorithm, LockScript, ScriptHashType, Script, CellDep, RawTransaction, Config, SignProvider, DepType, Hash256, SignContext } from "@nervosnetwork/keyper-specs";
 
 class TestSignProvider implements SignProvider {
   async sign(_context: SignContext, message: string): Promise<string> {

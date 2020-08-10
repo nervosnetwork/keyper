@@ -11,5 +11,5 @@ yarn run build
 ## Usage
 
 ```
-const container = require('@keyper/container');
+const container = require('@nervosnetwork/keyper-container');
 ```
