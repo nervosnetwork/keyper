@@ -1,5 +1,5 @@
 {
-  "name": "keyper",
+  "name": "nervosnetwork-keyper",
   "description": "ownership layer for Nervos CKB",
   "version": "0.0.1",
   "author": "ququzone <xueping.yang@gmail.com>",
