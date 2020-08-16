@@ -79,6 +79,10 @@ export class Container implements KeyManager, ContainerService {
     return this.publicKeys.length;
   }
 
+  public getPublicKeys(): PublicKey[] {
+    return this.publicKeys;
+  }
+
   public addLockScript(lockScript: LockScript) {
     let matched = false;
     let index = 0;

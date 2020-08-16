@@ -84,6 +84,7 @@ describe("container", () => {
       expect(container.publicKeySize()).toEqual(0);
       container.addPublicKey(publicKey0);
       expect(container.publicKeySize()).toEqual(1);
+      expect(container.getPublicKeys()).toEqual([publicKey0]);
     });
 
     test("add repeate", async () => {
